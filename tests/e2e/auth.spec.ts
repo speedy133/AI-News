@@ -13,7 +13,7 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('••••••••').fill('securepassword123');
     await page.getByRole('button', { name: 'Create Account' }).click();
 
-    // Check for the success message in the URL or DOM
-    await expect(page.getByText('Check your email to confirm your account before logging in!')).toBeVisible();
+    // Check that we are redirected to the dashboard/home page
+    await expect(page).toHaveURL('/');
   });
 });

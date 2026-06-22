@@ -37,5 +37,5 @@ export async function signup(formData: FormData) {
     redirect(`/login?message=${error.message}`)
   }
 
-  redirect('/login?message=Check your email to confirm your account before logging in!')
+  redirect('/')
 }
