@@ -15,7 +15,7 @@ export default async function LoginPage(props: {
           <p className="text-on-surface-variant">Initialize your custom intelligence feed.</p>
         </div>
         
-        <form className="flex flex-col w-full">
+        <form className="flex flex-col w-full" action={login}>
           <label className="text-sm font-semibold text-on-surface-variant mb-1 ml-1" htmlFor="email">
             Email address
           </label>
@@ -39,10 +39,10 @@ export default async function LoginPage(props: {
           />
           
           <div className="flex flex-col gap-3">
-            <button formAction={login} className="bg-primary text-on-primary rounded-xl px-4 py-3 font-bold transition-all duration-300 hover:shadow-[0_0_20px_rgba(173,198,255,0.4)]">
+            <button type="submit" formAction={login} className="bg-primary text-on-primary rounded-xl px-4 py-3 font-bold transition-all duration-300 hover:shadow-[0_0_20px_rgba(173,198,255,0.4)]">
               Sign In
             </button>
-            <button formAction={signup} className="glass bg-surface-container hover:bg-surface-container-high text-on-surface rounded-xl px-4 py-3 font-bold transition-all duration-300 border border-white/5">
+            <button type="submit" formAction={signup} className="glass bg-surface-container hover:bg-surface-container-high text-on-surface rounded-xl px-4 py-3 font-bold transition-all duration-300 border border-white/5">
               Create Account
             </button>
           </div>
