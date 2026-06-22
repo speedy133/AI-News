@@ -10,9 +10,10 @@ test.describe('Authentication Flow', () => {
 
     // Fill out form
     await page.getByPlaceholder('you@example.com').fill('testuser@example.com');
-    await page.getByRole('button', { name: 'Send Magic Link' }).click();
+    await page.getByPlaceholder('••••••••').fill('securepassword123');
+    await page.getByRole('button', { name: 'Create Account' }).click();
 
     // Check for the success message in the URL or DOM
-    await expect(page.getByText('Check your email for the magic login link!')).toBeVisible();
+    await expect(page.getByText('Check your email to confirm your account before logging in!')).toBeVisible();
   });
 });
