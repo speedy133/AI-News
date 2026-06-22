@@ -1,37 +1,54 @@
-'use client'
-import { Bookmark, BookmarkCheck } from 'lucide-react'
-import { useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { useRouter } from 'next/navigation'
+'use client';
 
-export default function SaveButton({ articleId, initialSaved = false }: { articleId: string, initialSaved?: boolean }) {
-  const [isSaved, setIsSaved] = useState(initialSaved)
-  const supabase = createClient()
-  const router = useRouter()
+import { useState, useEffect } from 'react';
+import { Bookmark } from 'lucide-react';
 
-  async function toggleSave() {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      router.push('/login')
-      return
+export default function SaveButton({ articleId, initialSaved }: { articleId: string, initialSaved: boolean }) {
+  const [isSaved, setIsSaved] = useState(initialSaved);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsSaved(initialSaved);
+  }, [initialSaved]);
+
+  const toggleSave = async () => {
+    setIsLoading(true);
+    // Optimistic UI update
+    setIsSaved(!isSaved);
+
+    try {
+      const res = await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ articleId, action: isSaved ? 'unsave' : 'save' }),
+      });
+
+      if (!res.ok) {
+        // Revert on failure
+        setIsSaved(isSaved);
+        console.error('Failed to save article');
+      }
+    } catch (e) {
+      setIsSaved(isSaved);
+      console.error(e);
+    } finally {
+      setIsLoading(false);
     }
-
-    if (isSaved) {
-      await supabase.from('saved_articles').delete().eq('article_id', articleId).eq('user_id', user.id)
-      setIsSaved(false)
-    } else {
-      await supabase.from('saved_articles').insert({ article_id: articleId, status: 'saved' })
-      setIsSaved(true)
-    }
-  }
+  };
 
   return (
-    <button onClick={toggleSave} className="flex items-center gap-2 text-sm font-medium transition-colors">
-      {isSaved ? (
-        <><BookmarkCheck className="w-4 h-4 text-blue-600" /><span className="text-blue-600">Saved</span></>
-      ) : (
-        <><Bookmark className="w-4 h-4 text-gray-400 hover:text-gray-900" /><span className="text-gray-400 hover:text-gray-900">Save</span></>
-      )}
+    <button 
+      onClick={toggleSave} 
+      disabled={isLoading}
+      className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 ${
+        isSaved 
+          ? 'text-primary drop-shadow-[0_0_8px_rgba(173,198,255,0.4)]' 
+          : 'text-on-surface-variant hover:text-on-surface'
+      }`}
+      aria-label={isSaved ? "Unsave article" : "Save article"}
+    >
+      <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
+      <span>{isSaved ? 'Saved' : 'Save for later'}</span>
     </button>
-  )
+  );
 }

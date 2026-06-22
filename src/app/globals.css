@@ -1,24 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: #10131a;
+  --color-surface-bright: #363941;
+  --color-on-surface: #e1e2ec;
+  --color-primary: #adc6ff;
+  --color-on-primary: #002e6a;
+  --color-secondary: #ddb7ff;
+  --color-on-secondary: #490080;
+  --color-tertiary: #4fdbc8;
+  --color-on-tertiary: #003731;
+  --color-background: #020617; /* Deep Slate base */
+  --color-on-background: #e1e2ec;
+  --color-outline: #8c909f;
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: var(--color-background);
+  --foreground: var(--color-on-background);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+/* Glassmorphism utilities */
+@utility glass {
+  background-color: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@utility glass-hover {
+  border-color: rgba(173, 198, 255, 0.3); /* Primary color low opacity */
+  box-shadow: 0 4px 20px -2px rgba(173, 198, 255, 0.1);
+}
+
+@utility glass-panel {
+  background-color: rgba(16, 19, 26, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

@@ -6,15 +6,15 @@ export default async function Navbar() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <nav className="border-b border-gray-100 bg-white sticky top-0 z-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-colors">
+    <nav className="sticky top-0 z-50 w-full glass-panel border-b border-white/5 transition-all duration-300">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="text-2xl font-display font-extrabold tracking-tight text-primary hover:text-primary-container transition-colors">
             Pulse.
           </Link>
           {user && (
-            <Link href="/saved" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
-              Saved
+            <Link href="/saved" className="text-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2">
+              Saved Articles
             </Link>
           )}
         </div>
@@ -22,12 +22,12 @@ export default async function Navbar() {
         <div>
           {user ? (
             <form action="/auth/signout" method="post">
-              <button className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+              <button className="text-sm font-medium text-on-surface-variant hover:text-error transition-colors">
                 Sign Out
               </button>
             </form>
           ) : (
-            <Link href="/login" className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm">
+            <Link href="/login" className="bg-primary text-on-primary px-5 py-2.5 rounded-full text-sm font-bold hover:shadow-[0_0_20px_rgba(173,198,255,0.4)] transition-all duration-300">
               Sign In
             </Link>
           )}
